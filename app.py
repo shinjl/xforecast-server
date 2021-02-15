@@ -10,8 +10,9 @@ from flask_cors import CORS
 openweathermap_app_key = os.environ.get("OPEN_WEATHERMAP_APP_KEY")
 # Get IPStack access key from environment file
 ipstack_access_key = os.environ.get("IPSTACK_ACCESS_KEY")
-# Get default IP from environment file, default IP is used when running the server on the localhost
-default_ip = os.environ.get("DEFAULT_IP")
+# Use default lat/lon when failed to get the location from IP
+default_lat = os.environ.get("DEFAULT_LAT")
+default_lon = os.environ.get("DEFAULT_LON")
 
 app = Flask(__name__)
 CORS(app)
@@ -36,16 +37,19 @@ with open('city.list.json') as city_list_file:
 def index():
     ip = request.remote_addr
     print(ip)
-    if (ip == '127.0.0.1' or ip == 'localhost'):
-        ip = default_ip
     url_str = 'http://api.ipstack.com/{ip}?access_key={ipstack_access_key}'.format(
         ip=ip, ipstack_access_key=ipstack_access_key)
     with urllib.request.urlopen(url_str) as url:
         result = json.loads(url.read().decode())
-
     print(result)
+
+    myLat = result['latitude']
+    myLon = result['longitude']
+    if (result['latitude'] is None or result['longitude'] is None):
+        myLat = default_lat
+        myLon = default_lon
     return {
-        'forecast': fetch_data(result['latitude'], result['longitude'])
+        'forecast': fetch_data(myLat, myLon)
     }
 
 
