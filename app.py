@@ -3,11 +3,8 @@ from markupsafe import escape
 import json
 import urllib.request
 import urllib.parse
-from dotenv import load_dotenv
 import os
 from flask_cors import CORS
-
-load_dotenv()
 
 # Get OpenWeatherMap APP key from environment file
 openweathermap_app_key = os.environ.get("OPEN_WEATHERMAP_APP_KEY")
@@ -18,6 +15,9 @@ default_ip = os.environ.get("DEFAULT_IP")
 
 app = Flask(__name__)
 CORS(app)
+
+print('app started.')
+print(openweathermap_app_key)
 
 cities = {}
 # city.list.json from http://bulk.openweathermap.org/sample/city.list.json.gz
