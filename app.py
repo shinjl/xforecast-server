@@ -17,7 +17,6 @@ app = Flask(__name__)
 CORS(app)
 
 print('app started.')
-print(openweathermap_app_key)
 
 cities = {}
 # city.list.json from http://bulk.openweathermap.org/sample/city.list.json.gz
@@ -36,6 +35,7 @@ with open('city.list.json') as city_list_file:
 @app.route('/', methods=['GET'])
 def index():
     ip = request.remote_addr
+    print(ip)
     if (ip == '127.0.0.1' or ip == 'localhost'):
         ip = default_ip
     url_str = 'http://api.ipstack.com/{ip}?access_key={ipstack_access_key}'.format(
@@ -43,6 +43,7 @@ def index():
     with urllib.request.urlopen(url_str) as url:
         result = json.loads(url.read().decode())
 
+    print(result)
     return {
         'forecast': fetch_data(result['latitude'], result['longitude'])
     }
