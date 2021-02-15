@@ -10,11 +10,11 @@ from flask_cors import CORS
 load_dotenv()
 
 # Get OpenWeatherMap APP key from environment file
-openweathermap_app_key = os.getenv("OPEN_WEATHERMAP_APP_KEY")
+openweathermap_app_key = os.environ.get("OPEN_WEATHERMAP_APP_KEY")
 # Get IPStack access key from environment file
-ipstack_access_key = os.getenv("IPSTACK_ACCESS_KEY")
+ipstack_access_key = os.environ.get("IPSTACK_ACCESS_KEY")
 # Get default IP from environment file, default IP is used when running the server on the localhost
-default_ip = os.getenv("DEFAULT_IP")
+default_ip = os.environ.get("DEFAULT_IP")
 
 app = Flask(__name__)
 CORS(app)
