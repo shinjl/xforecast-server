@@ -10,6 +10,9 @@ The backend service for xForecast, a simple weather forecast app built on Svelte
 # install dependencies
 pip install -r requirements.txt
 
+# configure environment variables
+cp .env.example .env
+
 # start development server
 flask run
 ```
